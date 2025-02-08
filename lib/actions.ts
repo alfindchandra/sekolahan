@@ -31,12 +31,14 @@ export const SingUpCredentials = async (
         password: hashedPassword,
       },
     });
+
+    redirect("/login");
   } catch (error) {
+    console.error("Error saat membuat akun:", error);
     return {
       Message: "Tidak Bisa Membuat Akun, Coba dengan Email Lain",
     };
   }
-  redirect("/login");
 };
 
 // Login Credentials ==========================================
