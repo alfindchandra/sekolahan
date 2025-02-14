@@ -20,23 +20,50 @@ export const SingUpCredentials = async (
     };
   }
 
-  const { name, email, password } = validatedFields.data;
+  const { name, nim, email, password } = validatedFields.data;
+
+  const existingUserNIM = await prisma.user.findUnique({
+    where: { nim },
+  });
+
+  if (existingUserNIM) {
+    return {
+      Message: "NIM sudah terdaftar, gunakan NIM yang berbeda",
+      success: false,
+    };
+  }
+
+  const existingUserEmail = await prisma.user.findUnique({
+    where: { email },
+  });
+
+  if (existingUserEmail) {
+    return {
+      Message: "Email sudah terdaftar, gunakan email yang berbeda",
+      success: false,
+    };
+  }
 
   const hashedPassword = hashSync(password, 10);
   try {
     await prisma.user.create({
       data: {
         name,
+        nim,
         email,
         password: hashedPassword,
       },
     });
 
-    redirect("/login");
+    return {
+      Message: "Berhasil Membuat Akun",
+      success: true,
+    };
   } catch (error) {
     console.error("Error saat membuat akun:", error);
     return {
-      Message: "Tidak Bisa Membuat Akun, Coba dengan Email Lain",
+      Message: "Tidak Bisa Membuat Akun, Coba Lagi",
+      success: false,
     };
   }
 };
@@ -57,16 +84,16 @@ export const LoginCredentials = async (
     };
   }
 
-  const { email, password } = validatedFields.data;
+  const { nim, password } = validatedFields.data;
 
   try {
-    await signIn("credentials", { email, password, redirectTo: "/dashboard" });
+    await signIn("credentials", { nim, password, redirectTo: "/dashboard" });
   } catch (error) {
     if (error instanceof AuthError) {
       switch (error.type) {
         case "CredentialsSignin":
           return {
-            Message: "Email atau Password Salah",
+            Message: "Nim atau Password Salah",
           };
         default:
           return {

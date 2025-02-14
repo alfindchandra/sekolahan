@@ -19,20 +19,20 @@ const Formlogin = () => {
 
       <div>
         <label
-          htmlFor="email"
+          htmlFor="nim"
           className="block mb-2 text-sm font-bold text-gray-900"
         >
-          Email
+          Nim
         </label>
         <input
-          type="email"
-          name="email"
-          placeholder="alfindchandra@gmail.com"
+          type="number"
+          name="nim"
+          placeholder="043299787"
           className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
         />
         <div aria-live="polite" aria-atomic="true">
           <span className="text-red-500 italic text-sm mt-2">
-            {state?.error?.email}
+            {state?.error?.nim}
           </span>
         </div>
       </div>
@@ -60,13 +60,13 @@ const Formlogin = () => {
         type="submit"
         className="mt-4 w-full py-2 rounded-md bg-teal-500 text-white font-bold transition duration-200 hover:bg-white hover:text-black border-2 border-transparent hover:border-teal-500"
       >
-        Register
+        Login
       </button>
       <p className="mt-4 text-sm font-light text-gray-500">
-        Anda Belum Punya Akun?
-        <Link href="/register">
+        Kamu Belum Anggota Segera daftar?
+        <Link href="/home/aktivasi">
           <span className="ml-1 font-medium text-teal-500 hover:text-teal-400">
-            Register
+            Aktivasi
           </span>
         </Link>
       </p>

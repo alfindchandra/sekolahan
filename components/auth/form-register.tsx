@@ -1,22 +1,45 @@
 "use client";
 
-import { useFormState } from "react-dom";
+import { useActionState } from "react";
 import Link from "next/link";
 import { SingUpCredentials } from "@/lib/actions";
 
 const Formregister = () => {
-  const [state, formAction] = useFormState(SingUpCredentials, null);
+  const [state, formAction] = useActionState(SingUpCredentials, null);
   return (
     <form action={formAction} className="space-y-4">
       {state?.Message ? (
         <div
-          className="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-100"
+          className={`p-4 mb-4 text-sm rounded-lg ${
+            state.success
+              ? "text-green-800 bg-green-100"
+              : "text-red-800 bg-red-100"
+          }`}
           role="alert"
         >
           <span className="font-medium">{state?.Message}</span>
         </div>
       ) : null}
-
+      <div>
+        <label
+          htmlFor="nim"
+          className="block mb-2 text-sm font-bold text-gray-900"
+        >
+          Nim
+        </label>
+        <input
+          type="number"
+          name="nim"
+          id="myNumber"
+          placeholder="043299787"
+          className="bg-gray-50 appearance-none border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+        />
+        <div aria-live="polite" aria-atomic="true">
+          <span className="text-red-400 italic text-sm mt-2">
+            {state?.error?.nim}
+          </span>
+        </div>
+      </div>
       <div>
         <label
           htmlFor="name"
